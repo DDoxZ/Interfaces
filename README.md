@@ -4,8 +4,9 @@
 
 ## About
 
-Group Project of a Food & Social App using html, css and javascript.
-TailWind used for css.
+Group Project of a Food & Social App using html, css and javascript. <br>
+TailWind used for css. <br>
+This project is aimed for mobile use, so take that in consideration when checking it out
 
 ## Learned
  - HTML
