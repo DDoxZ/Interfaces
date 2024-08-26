@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protótipo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="manifest" href="manifest.json">
+    <script>
+        //if browser support service worker
+        if('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        };
+    </script>
+</head>
+<body class="limitscreen bg-zinc-900 h-full">
+    <div id="app" class="bg-zinc-900 flex flex-col h-full">
+        <!-- Current page content -->
+        <div class="flex flex-col h-full flex-1 overflow-y-auto">
+            <!-- Tab Switcher -->
+            <div class="flex w-full p-4 mt-2 items-center justify-between">
+                <div class="flex items-center text-zinc-400 gap-4 text-xl">
+                    <!-- Unselected tab - Receitas -->
+                    <div
+                        onclick="window.location.href = '../index.html'"
+                        class="cursor-pointer hover:text-white duration-150">
+                        Receitas
+                    </div>
+
+                    <!-- Selected tab - Grupos -->
+                    <div 
+                        onclick="window.location.href = './index.html'"
+                        class="text-white font-bold underline underline-offset-[5px] decoration-2 cursor-pointer">
+                        Grupos
+                    </div> 
+                </div>
+                 <!-- Unselected tab - Add -->
+                <!-- <div 
+                    onclick="window.location.href = 'create.html'"
+                    class="flex cursor-pointer text-zinc-400 hover:text-white duration-150 items-center gap-2 border-2 border-zinc-400 rounded-full p-2 px-4 hover:border-white"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                    </svg>
+                    <p class="text-md font-bold">
+                        Criar
+                    </p>           
+                </div> -->
+            </div>
+
+            <!-- Page content -->
+            <div class="p-4 mt-2 bg-zinc-800 flex-1">
+                <!-- Group Info -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 bg-zinc-700 rounded-full"></div>
+                        <div>
+                            <h1 class="text-white text-2xl font-bold">Grupo de Amigos</h1>
+                            <p class="text-zinc-400">Descrição do grupo</p>
+                        </div>
+                    </div>
+                    <!-- Group Options (3 dots) -->
+                    <div 
+                        id="group-options-open-button"
+                        data-modal="group-options-modal"
+                        class="flex items-center gap-4 text-zinc-400 cursor-pointer hover:text-white duration-150">
+                        <svg
+                            data-modal="group-options-modal"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path 
+                            data-modal="group-options-modal"
+                            stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+                          </svg>                          
+                    </div>
+
+                    <!-- Group Options Menu modal -->
+                    <div id="group-options-modal" class="hidden absolute top-0 right-0 mt-16 w-48 bg-zinc-800 rounded-lg shadow-lg p-4 border border-zinc-600 z-10">
+                        <div class="flex flex-col gap-2">
+                            <div 
+                                id="group-options-share-button"
+                                class="flex p-1 items-center gap-4 text-zinc-400 cursor-pointer hover:text-white duration-150">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                                  </svg>
+                                <p>Partilhar</p>
+                            </div>  
+                            <div 
+                                id="group-options-leave-button"
+                                class="flex p-1 items-center gap-4 text-red-500 cursor-pointer hover:text-red-400 duration-150">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                  </svg>
+                                <p>Sair</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Divider -->
+                <div class="border-b border-zinc-600 mt-4"></div>
+
+                <!-- Messages -->
+                <div id="messages" class="flex flex-col mt-4 overflow-auto mb-36">
+                    <!-- Message -->
+                    <div class="flex gap-4">
+                        <!-- align profile picture to the top of the message -->
+                        <div class="w-8 h-8 bg-zinc-700 rounded-full"></div>
+                        <div class="flex flex-col gap-1 bg-zinc-700 px-4 py-2 w-44 rounded-b-xl rounded-r-xl">
+                            <div class="flex items-center justify-between gap-2">
+                                <p class="text-zinc-400 text-sm">Nome do Usuário</p>
+                            </div>
+                            <p class="text-white text-sm">Olá, tudo bem?</p>
+                            <p class="text-zinc-400 text-xs text-right ml-6">12:00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                
+        <!-- Message Input -->
+        <div class="flex items center gap-4 mb-16 bg-zinc-900 w-full h-20 fixed bottom-0 p-4">
+            <input id="message-input-text" type="text" class="outline-none focus:border-zinc-600 border-2 border-zinc-700 flex-1 bg-zinc-700 text-white rounded-lg p-2" placeholder="Digite uma mensagem..."/>
+            <button id="message-send-button" class="bg-zinc-700 text-white rounded-lg px-4 py-2 active:bg-zinc-600">Enviar</button>
+        </div>
+
+        <!-- Success modal -->
+        <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+            <div class="flex items
+            -center justify-center h-screen">
+                <div class="bg-zinc-800 p-4 rounded-lg m-auto mx-4">
+                    <p class="text-white
+                    text-center">Link copiado para a área de transferência!</p>
+                    <div class="flex justify-center mt-4 gap-4">
+                        <button id="close-button" class="bg-zinc-600 text-white px-4 py-2 rounded-lg hover:bg-zinc-700 duration-150">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        <!-- App menu bar at the bottom -->
+        <div class="bg-zinc-950 h-16 grid grid-cols-4 fixed bottom-0 w-full">
+
+            <!-- Home Button -->
+            <div 
+                onclick="window.location.href = '../index.html'"
+                class="text-white cursor-pointer hover:text-zinc-300 duration-150 flex flex-col items-center justify-center text-sm"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                  </svg>
+                Início
+            </div>
+
+            <!-- Cart Button -->
+            <div 
+                onclick="window.location.href = '../cart/index.html'"
+                class="text-zinc-600 cursor-pointer hover:text-zinc-300 duration-150 flex flex-col items-center justify-center text-sm"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                </svg>
+                Carrinho                             
+            </div>
+
+            <!-- Calendar Button -->
+            <div 
+                onclick="window.location.href = '../calendar/index.html'"
+                class="text-zinc-600 cursor-pointer hover:text-zinc-300 duration-150 flex flex-col items-center justify-center text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+                </svg>
+                Calendário      
+            </div>
+
+            <!-- Personal Button -->
+            <div 
+                onclick="window.location.href = '../personal/index.html'"
+                class="text-zinc-600 cursor-pointer hover:text-zinc-300 duration-150 flex flex-col items-center justify-center text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+</svg>
+                 
+                Pessoal      
+            </div>
+        </div>
+    </div>
+    <script src="message.js"></script>
+</body>
+</html>

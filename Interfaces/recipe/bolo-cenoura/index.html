@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protótipo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="limitscreen bg-zinc-800">
+    <div id="app" class="bg-zinc-800 flex flex-col">
+        <!-- Current page content -->
+        <div class="flex-1 overflow-y-auto no-scrollbar">
+            <!-- Page content -->
+            <div class="relative">
+                <!-- Back button -->
+                <div 
+                    onclick="window.location.href = '../../index.html'"
+                    class="absolute top-4 left-4 text-white cursor-pointer hover:text-zinc-300 duration-150 bg-zinc-900 rounded-full p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                </div>
+
+                <!-- Recipe Image -->
+                <img id="recipe-image" src="https://i.pinimg.com/736x/2b/0b/73/2b0b73f42ef0ec6d0cc06392bff2f543.jpg" alt="Recipe image" class="w-full object-cover h-[32rem]">
+
+                <!-- Recipe Info -->
+                <div class="p-4 bg-zinc-800">
+                    <div class="flex items-center justify-between">
+                        <p id="recipe-name" class="text-3xl font-bold text-white">
+                            Receita de Bolo de Cenoura
+                        </p>
+                        <div id="save-button" class="text-white hover:text-zinc-30 hover:bg-zinc-700 duration-150 rounded-full p-2 cursor-pointer active:bg-zinc-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                            </svg>  
+                        </div>                        
+                    </div>
+                    <p id="recipe-time-portions" class="text-sm text-zinc-400 mt-2">
+                        1h 30min | 8 porções
+                    </p>
+                    <p id="recipe-description" class="text-md text-white mt-2">
+                        O bolo de cenoura é uma receita simples e rápida de fazer, perfeita para um lanche ou café da manhã.
+                    </p>
+                </div>
+
+                <!-- Confirm modal -->
+                <div id="confirm-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+                    <div class="flex items
+                    -center justify-center h-screen">
+                        <div class="bg-zinc-800 p-4 rounded-lg m-auto mx-4">
+                            <p class="text-white
+                            text-center">Tem a certeza que deseja adicionar estes ingredientes ao carrinho?</p>
+                            <div class="flex justify-center mt-4 gap-4">
+                                <button id="cancel-button" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 duration-150">Não</button>
+                                <button id="confirm-button" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 duration-150">Sim</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success modal -->
+                <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+                    <div class="flex items
+                    -center justify-center h-screen">
+                        <div class="bg-zinc-800 p-4 rounded-lg m-auto mx-4">
+                            <p class="text-white
+                            text-center">Ingredientes adicionados ao carrinho com sucesso!</p>
+                            <div class="flex justify-center mt-4 gap-4">
+                                <button id="close-button" class="bg-zinc-600 text-white px-4 py-2 rounded-lg hover:bg-zinc-700 duration-150">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success2 modal -->
+                <div id="success-modal2" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+                    <div class="flex items
+                    -center justify-center h-screen">
+                        <div class="bg-zinc-800 p-4 rounded-lg m-auto mx-4">
+                            <p class="text-white
+                            text-center">Receita salva com sucesso!</p>
+                            <div class="flex justify-center mt-4 gap-4">
+                                <button id="close-button2" class="bg-zinc-600 text-white px-4 py-2 rounded-lg hover:bg-zinc-700 duration-150">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ingredients -->
+                <div class="p-4 bg-zinc-800">
+                    <p class="text-2xl font-bold text-white">
+                        Ingredientes
+                    </p>
+                    <ul class="text-md text-white mt-2">
+                        <li>3 cenouras médias</li>
+                        <li>4 ovos</li>
+                        <li>1 xícara de óleo</li>
+                        <li>2 xícaras de açúcar</li>
+                        <li>2 xícaras de farinha de trigo</li>
+                        <li>1 colher de fermento em pó</li>
+                        <li>Calda de chocolate para cobertura</li>
+                    </ul>
+
+                    <!-- Preparation -->
+                    <div class="mt-8">
+                        <p class="text-2xl font-bold text-white">
+                            Modo de Preparação
+                        </p>
+                        <ol class="text-md text-white mt-2">
+                            <li>Em um liquidificador, bata as cenouras, os ovos e o óleo.</li>
+                            <li>Adicione o açúcar e bata por mais alguns minutos.</li>
+                            <li>Despeje a mistura em uma tigela e adicione a farinha de trigo.</li>
+                            <li>Por último, adicione o fermento e misture bem.</li>
+                            <li>Despeje a massa em uma forma untada e leve ao forno por 40 minutos.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="mb-32"></div>
+                <!-- Buttons -->
+                <div class="flex bg-zinc-800 items-center fixed bottom-16 w-screen h-16">
+                    <div class="flex gap-4 ml-4 sm:text-base text-sm">
+                        <button class="flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-600 duration-150">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                            </svg>
+                            Partilhar
+                        </button>
+                        <button 
+                            id="cart-button"
+                            class="flex items-center justify-center gap-2 bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 duration-150"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                            </svg>
+                            Comprar ingredientes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        <!-- App menu bar at the bottom -->
+        <div class="bg-zinc-950 h-16 grid grid-cols-4 fixed bottom-0 w-full">
+
+            <!-- Home Button -->
+            <div 
+                onclick="window.location.href = '../../index.html'"
+                class="text-white cursor-pointer hover:text-zinc-300 duration-150 flex flex-col items-center justify-center text-sm"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                  </svg>
+                Início
+            </div>
+
+            <!-- Cart Button -->
+            <div 
+                onclick="window.location.href = '../../cart/index.html'"
+                class="text-zinc-600 cursor-pointer hover:text-zinc-300 duration-150 flex flex-col items-center justify-center text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                </svg>
+                Carrinho                             
+            </div>
+
+            <!-- Calendar Button -->
+            <div 
+                onclick="window.location.href = '../../calendar/index.html'"
+                class="text-zinc-600 cursor-pointer hover:text-zinc-300 duration-150 flex flex-col items-center justify-center text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+                </svg>
+                Calendário      
+            </div>
+
+            <!-- Personal Button -->
+            <div 
+                onclick="window.location.href = '../../personal/index.html'"
+                class="text-zinc-600 cursor-pointer hover:text-zinc-300 duration-150 flex flex-col items-center justify-center text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+                                
+                Pessoal      
+            </div>
+        </div>
+    </div>
+    <script src="../script.js"></script>
+</body>
+</html>
